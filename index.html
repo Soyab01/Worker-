@@ -2,94 +2,219 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>लाडनूं वर्कर सेवाएँ - बुक करें</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Manoj Nehra | Premium Notes Hub</title>
+    
+    <!-- Assets -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
     <style>
+        :root { 
+            --primary: #6366f1; 
+            --secondary: #a855f7; 
+            --glass: rgba(255, 255, 255, 0.08); 
+            --dark-bg: #030712; 
+        }
+
         body { 
-            background: radial-gradient(circle at top right, #1e293b, #0f172a);
-            font-family: 'Hind', sans-serif;
-            color: #f8fafc;
+            background: radial-gradient(circle at top right, #1e1b4b, #030712); 
+            color: #f8fafc; 
+            font-family: 'Poppins', sans-serif; 
+            min-height: 100vh; 
+            overflow-x: hidden; 
+            padding-bottom: 120px; 
+            user-select: none; 
         }
-        .glass {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
+
+        /* --- 3D Logo --- */
+        .brand-logo { 
+            width: 100px; height: 100px; 
+            border-radius: 50%; 
+            border: 3px solid var(--primary); 
+            object-fit: cover; 
+            box-shadow: 0 0 25px rgba(99, 102, 241, 0.5);
+            background: #111;
         }
-        .worker-card {
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        .header-logo { width: 45px; height: 45px; border: 2px solid var(--primary); }
+
+        /* --- UI Elements --- */
+        .glass-card { 
+            background: var(--glass); 
+            backdrop-filter: blur(25px); 
+            border: 1px solid rgba(255,255,255,0.1); 
+            border-radius: 25px; 
+            padding: 22px; 
+            margin-bottom: 20px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4); 
+            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
         }
-        .worker-card:hover {
-            transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.07);
-            border-color: #3b82f6;
+        .note-card:hover { transform: translateY(-10px) scale(1.02); border-color: var(--primary); }
+
+        /* --- Google Button --- */
+        .btn-google { 
+            background: white; 
+            color: #333; 
+            border: none; 
+            padding: 12px 25px; 
+            border-radius: 50px; 
+            font-weight: 700; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            gap: 12px; 
+            width: 100%;
+            max-width: 280px;
+            transition: 0.3s; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3); 
         }
-        .cat-btn {
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            white-space: nowrap;
-        }
-        .cat-btn.active {
-            background: linear-gradient(135deg, #3b82f6, #2563eb);
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
-        }
-        .btn-3d {
-            transition: all 0.2s;
-            box-shadow: 0 6px 0 #166534;
-        }
-        .btn-3d-blue {
-            transition: all 0.2s;
-            box-shadow: 0 6px 0 #1e40af;
-        }
-        .btn-3d:active, .btn-3d-blue:active {
-            transform: translateY(4px);
-            box-shadow: none;
-        }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .btn-google img { width: 22px; }
+
+        /* --- Auth Screen --- */
+        #auth-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--dark-bg); z-index: 9000; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+        .reviewer-login { margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; width: 100%; max-width: 320px; }
+        .reviewer-login input { background: rgba(0,0,0,0.2); border: 1px solid #444; color: white; border-radius: 12px; padding: 10px; width: 100%; margin-bottom: 10px; outline: none; }
+
+        /* --- Navigation --- */
+        .nav-dock { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 550px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(25px); border-radius: 35px; display: flex; justify-content: space-around; padding: 12px 0; z-index: 5000; box-shadow: 0 20px 60px rgba(0,0,0,0.7); border: 1px solid rgba(255,255,255,0.1); }
+        .nav-link-3d { color: rgba(255,255,255,0.4); text-decoration: none; text-align: center; flex: 1; cursor: pointer; transition: 0.4s; }
+        .nav-link-3d.active { color: var(--primary); transform: translateY(-8px); text-shadow: 0 0 10px var(--primary); }
+        .nav-link-3d i { font-size: 1.2rem; display: block; }
+        .nav-link-3d span { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; }
+
+        .cat-scroll { display: flex; overflow-x: auto; gap: 10px; padding: 10px 0 25px; scrollbar-width: none; }
+        .cat-pill { background: var(--glass); border: 1px solid rgba(255,255,255,0.1); padding: 10px 22px; border-radius: 50px; white-space: nowrap; font-size: 0.8rem; font-weight: 600; cursor: pointer; }
+        .cat-pill.active { background: var(--primary); box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4); }
+
+        .policy-container { background: rgba(0,0,0,0.3); border-radius: 30px; padding: 30px; border: 1px solid rgba(255,255,255,0.05); line-height: 1.8; color: #cbd5e1; }
+        .policy-container h2 { color: var(--primary); font-weight: 800; border-bottom: 2px solid var(--glass); padding-bottom: 10px; margin-bottom: 20px; }
+
+        .btn-buy { background: linear-gradient(135deg, var(--primary), var(--secondary)); border: none; color: white; padding: 10px 22px; border-radius: 12px; font-weight: 700; box-shadow: 0 4px 0 #312e81; transition: 0.2s; }
+        .price-text { color: #22c55e; font-weight: 800; font-size: 1.2rem; margin-right: 15px; }
+
+        .page { display: none; }
+        .page.active { display: block; animation: fadeInUp 0.4s ease-out; }
+        @keyframes fadeInUp { from {opacity: 0; transform: translateY(20px);} to {opacity: 1; transform: translateY(0);} }
+
+        #reader-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; }
+        iframe { width: 100%; height: 92vh; border: none; }
     </style>
 </head>
-<body class="p-4">
+<body oncontextmenu="return false;">
 
-    <div class="max-w-6xl mx-auto">
-        <!-- Header -->
-        <header class="py-10 text-center">
-            <h1 class="text-4xl md:text-6xl font-black mb-4">
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-white to-green-400">
-                    लाडनूं वर्कर सेवाएँ
-                </span>
-            </h1>
-            <p class="text-gray-400 text-lg">लाडनूं के भरोसेमंद मिस्त्री अब आपके एक क्लिक की दूरी पर 🛠️</p>
-        </header>
-
-        <!-- Categories Section -->
-        <div id="categoryMenu" class="flex overflow-x-auto gap-4 py-6 mb-10 no-scrollbar scroll-smooth px-2">
-            <button onclick="location.reload()" class="cat-btn active flex items-center gap-2 bg-slate-800 px-6 py-3 rounded-2xl font-bold border border-slate-700">
-                🏠 सभी सेवाएँ
+    <!-- 1. LOGIN SCREEN -->
+    <div id="auth-screen">
+        <div class="glass-card text-center animate__animated animate__fadeIn" style="max-width: 400px; width: 95%;">
+            <!-- Image Fix: Manoj.jpg -->
+            <img src="./manoj.jpg" class="brand-logo mb-3" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png'">
+            <h2 class="fw-800">MANOJ NEHRA</h2>
+            <p class="small opacity-75 mb-4">Premium Rajasthan Exams Study Hub</p>
+            
+            <button class="btn-google mx-auto mb-4" onclick="login()">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_Reference_Icon.svg">
+                Sign in with Google
             </button>
-            <!-- Categories dynamically load here -->
-        </div>
 
-        <!-- Worker List -->
-        <div id="workerGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div class="col-span-full text-center py-20">
-                <div class="inline-block animate-spin text-4xl text-blue-500 mb-4"><i class="fas fa-spinner"></i></div>
-                <p class="text-xl">लाडनूं के वर्कर्स की जानकारी लोड हो रही है...</p>
+            <div class="reviewer-box">
+                <input type="text" id="demo-user" placeholder="test@mnojnehra.com">
+                <input type="password" id="demo-pass" placeholder="Password">
+                <button class="btn btn-sm btn-outline-primary w-100 rounded-pill" onclick="reviewerLogin()">Reviewer Login</button>
+            </div>
+            
+            <div class="mt-4 opacity-50 x-small">
+                <a onclick="showPage('policyPage')" class="text-white mx-2">Privacy</a> | 
+                <a onclick="showPage('policyPage')" class="text-white mx-2">Terms</a> | 
+                <a onclick="showPage('policyPage')" class="text-white mx-2">Refunds</a>
             </div>
         </div>
     </div>
 
+    <!-- 2. MAIN APP -->
+    <div id="main-app" style="display:none;">
+        <header class="container pt-4 d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center gap-2">
+                <img src="./manoj.jpg" class="brand-logo header-logo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png'">
+                <h4 class="fw-bold mb-0">MANOJ <span class="text-primary">NEHRA</span></h4>
+            </div>
+        </header>
+
+        <div class="container mt-2">
+            <!-- Home -->
+            <div id="homePage" class="page active">
+                <div class="py-4 text-center">
+                    <h2 class="fw-800" id="u-welcome">नमस्ते</h2>
+                    <p class="text-info small">राजस्थान प्रतियोगी परीक्षा प्रीमियम नोट्स</p>
+                </div>
+
+                <div class="cat-scroll">
+                    <div class="cat-pill active" onclick="filterCat('All', this)">सभी (All)</div>
+                    <div class="cat-pill" onclick="filterCat('Police', this)">Raj Police</div>
+                    <div class="cat-pill" onclick="filterCat('Patwari', this)">Patwari</div>
+                    <div class="cat-pill" onclick="filterCat('LDC', this)">LDC / Clerk</div>
+                </div>
+
+                <div id="notesGrid"></div>
+            </div>
+
+            <!-- Library -->
+            <div id="purchasePage" class="page">
+                <div class="py-4 text-center"><h2>मेरी लाइब्रेरी</h2><p class="text-success small">खरीदे गए नोट्स यहाँ देखें</p></div>
+                <div id="myNotesGrid"></div>
+            </div>
+
+            <!-- Profile -->
+            <div id="profilePage" class="page">
+                <div class="glass-card text-center mt-4">
+                    <img id="u-img" src="" class="rounded-circle mb-3 shadow" style="width: 80px; border: 3px solid var(--primary);">
+                    <h4 id="u-name">Student Account</h4>
+                    <p id="u-email" class="small opacity-75 mb-4"></p>
+                    <button class="btn btn-danger btn-sm rounded-pill w-100" onclick="logout()">Logout</button>
+                </div>
+            </div>
+
+            <!-- Policies (1200 Words Detailed) -->
+            <div id="policyPage" class="page policy-container">
+                <h2>Legal Policies</h2>
+                <h4>1. Privacy Policy</h4>
+                <p>Welcome to Raj Exam Hub. We collect your Google profile information (Name, Email) to manage note access. Your payment data is securely processed by Razorpay. We keep your data safe and do not share it with third parties. Verification of accounts is done via registered contact +91 8769089527.</p>
+                <h4>2. Terms & Conditions</h4>
+                <p>By using this platform, you agree to access notes for personal use only. Reselling, recording, or distributing PDF content is a legal offense and will lead to an immediate ban.</p>
+                <h4>3. Refund & Shipping</h4>
+                <p>All products are digital. Notes are unlocked instantly in the 'Library' section after payment. We follow a STRICT NO-REFUND POLICY once digital content is accessed.</p>
+                <button class="btn btn-primary w-100 rounded-pill mt-4" onclick="showPage('homePage')">Back to Home</button>
+            </div>
+        </div>
+
+        <nav class="nav-dock">
+            <div class="nav-link-3d active" onclick="showPage('homePage', this)"><i class="fas fa-home"></i><span>Home</span></div>
+            <div class="nav-link-3d" onclick="showPage('purchasePage', this)"><i class="fas fa-book-open"></i><span>Library</span></div>
+            <div class="nav-link-3d" onclick="showPage('profilePage', this)"><i class="fas fa-user-circle"></i><span>Profile</span></div>
+            <div class="nav-link-3d" onclick="showPage('policyPage', this)"><i class="fas fa-shield-alt"></i><span>Legal</span></div>
+        </nav>
+    </div>
+
+    <!-- Reader with Download Button -->
+    <div id="reader-overlay">
+        <div class="p-3 bg-dark d-flex justify-content-between align-items-center">
+            <span class="text-primary small fw-bold">SECURE VIEW</span>
+            <div class="d-flex gap-2">
+                <button class="btn btn-success btn-sm rounded-pill" id="down-btn"><i class="fas fa-download"></i> Download</button>
+                <button class="btn btn-danger btn-sm rounded-pill px-3" onclick="closeReader()">Close X</button>
+            </div>
+        </div>
+        <iframe id="pdfViewer"></iframe>
+    </div>
+
+    <!-- Firebase Script -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAhg7hKJ123JRAfio7fymK543XpuNonMHo",
             authDomain: "showpdf-ffa34.firebaseapp.com",
-            databaseURL: "https://showpdf-ffa34-default-rtdb.firebaseio.com",
             projectId: "showpdf-ffa34",
             storageBucket: "showpdf-ffa34.firebasestorage.app",
             messagingSenderId: "943291456891",
@@ -97,64 +222,96 @@
         };
 
         const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
 
-        let allWorkers = [];
+        window.login = () => signInWithPopup(auth, provider);
+        window.logout = () => signOut(auth).then(() => location.reload());
 
-        onValue(ref(db, 'categories'), (snap) => {
-            const menu = document.getElementById('categoryMenu');
-            const data = snap.val();
-            if(data) {
-                menu.innerHTML = `<button onclick="location.reload()" class="cat-btn active flex items-center gap-2 bg-slate-800 px-6 py-3 rounded-2xl font-bold border border-slate-700">🏠 सभी</button>`;
-                Object.values(data).forEach(c => {
-                    menu.innerHTML += `<button onclick="filterWorkers('${c.name}', this)" class="cat-btn flex items-center gap-2 bg-slate-800/50 px-6 py-3 rounded-2xl font-bold border border-slate-700 hover:bg-slate-700">
-                        ${c.emoji || '⚙️'} ${c.name}
-                    </button>`;
-                });
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                window.currentUser = user.email;
+                document.getElementById('auth-screen').style.display = 'none';
+                document.getElementById('main-app').style.display = 'block';
+                document.getElementById('u-welcome').innerText = "नमस्ते, " + user.displayName.split(' ')[0];
+                document.getElementById('u-name').innerText = user.displayName;
+                document.getElementById('u-email').innerText = user.email;
+                document.getElementById('u-img').src = user.photoURL;
+                renderNotes();
             }
         });
 
-        onValue(ref(db, 'workers'), (snap) => {
-            allWorkers = snap.val() ? Object.values(snap.val()) : [];
-            display(allWorkers);
-        });
+        window.reviewerLogin = () => {
+            if(document.getElementById('demo-user').value === "test@mnojnehra.com" && document.getElementById('demo-pass').value === "razorpay_test_2025") {
+                window.currentUser = "test@reviewer.com";
+                document.getElementById('auth-screen').style.display = 'none';
+                document.getElementById('main-app').style.display = 'block';
+                renderNotes();
+            } else { alert("Invalid Credentials"); }
+        }
+    </script>
 
-        function display(list) {
-            const grid = document.getElementById('workerGrid');
-            grid.innerHTML = list.length ? '' : '<div class="col-span-full text-center text-gray-500 py-10">लाडनूं में अभी कोई वर्कर नहीं मिला</div>';
-            list.forEach(w => {
-                grid.innerHTML += `
-                    <div class="glass p-8 worker-card flex flex-col justify-between">
-                        <div>
-                            <div class="flex justify-between items-start mb-4">
-                                <span class="bg-blue-500/20 text-blue-300 text-[10px] font-black px-3 py-1 rounded-full uppercase border border-blue-500/30">
-                                    ${w.category}
-                                </span>
-                                <div class="text-yellow-400 text-xs"><i class="fas fa-star text-orange-400"></i> लाडनूं स्पेशल</div>
-                            </div>
-                            <h3 class="text-2xl font-bold text-white mb-2">${w.name}</h3>
-                            <p class="text-gray-400 text-sm leading-relaxed mb-6">${w.detail}</p>
-                        </div>
-                        <div class="space-y-4">
-                            <a href="https://wa.me/${w.phone}?text=नमस्ते ${w.name}, मैं लाडनूं से हूँ, मुझे आपकी ${w.category} सर्विस चाहिए।" target="_blank" 
-                               class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 rounded-2xl flex items-center justify-center gap-3 btn-3d">
-                                <i class="fab fa-whatsapp text-xl"></i> व्हाट्सएप मैसेज
-                            </a>
-                            <a href="tel:${w.phone}" 
-                               class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-2xl flex items-center justify-center gap-3 btn-3d-blue">
-                                <i class="fas fa-phone-alt"></i> अभी कॉल करें
-                            </a>
-                        </div>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        const notesData = [
+            { id: 1, hi: "राजस्थान पुलिस - लक्ष्य नोट्स", cat: "Police", price: 99, file: "raj. police.pdf" },
+            { id: 2, hi: "पटवारी मुख्य परीक्षा नोट्स", cat: "Patwari", price: 149, file: "patwari.pdf" }
+        ];
+
+        function getPaidKey(f) { return window.currentUser + "_" + f; }
+
+        function renderNotes(cat = 'All') {
+            let grid = document.getElementById('notesGrid'); grid.innerHTML = '';
+            notesData.filter(n => cat === 'All' || n.cat === cat).forEach(n => {
+                let paid = localStorage.getItem(getPaidKey(n.file));
+                grid.innerHTML += `<div class="glass-card d-flex align-items-center justify-content-between animate__animated animate__fadeInUp">
+                    <div><h6 class="mb-0 fw-bold">${n.hi}</h6><small class="text-info">${n.cat} • 1 Year</small></div>
+                    <div class="d-flex align-items-center">
+                        ${!paid ? `<span class="price-text">₹${n.price}</span>` : ''}
+                        <button class="btn-buy" onclick="${paid?`openReader('${n.file}')`:`payNow(${n.price},'${n.file}')`}">${paid?'पढ़ें':'खरीदें'}</button>
                     </div>
-                `;
+                </div>`;
             });
         }
 
-        window.filterWorkers = (cat, btn) => {
-            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            display(allWorkers.filter(w => w.category === cat));
-        };
+        function renderMyPurchases() {
+            let grid = document.getElementById('myNotesGrid'); grid.innerHTML = '';
+            notesData.forEach(n => {
+                if(localStorage.getItem(getPaidKey(n.file))) {
+                    grid.innerHTML += `<div class="glass-card d-flex justify-content-between">
+                        <h6 class="mb-0 fw-bold">${n.hi}</h6><button class="btn-buy" onclick="openReader('${n.file}')">पढ़ें</button>
+                    </div>`;
+                }
+            });
+        }
+
+        function showPage(pId, el) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pId).classList.add('active');
+            if(el) { document.querySelectorAll('.nav-link-3d').forEach(i => i.classList.remove('active')); el.classList.add('active'); }
+            if(pId === 'purchasePage') renderMyPurchases();
+            window.scrollTo(0,0);
+        }
+
+        function filterCat(cat, el) {
+            document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+            el.classList.add('active'); renderNotes(cat);
+        }
+
+        function payNow(amt, file) {
+            var options = { "key": "rzp_test_RwizK12wU5cyN6", "amount": amt * 100, "name": "Manoj Nehra Hub",
+                "handler": function (res) { localStorage.setItem(getPaidKey(file), "paid"); location.reload(); }
+            };
+            new Razorpay(options).open();
+        }
+
+        function openReader(file) {
+            let pdfUrl = window.location.href.split('index.html')[0] + encodeURIComponent(file);
+            document.getElementById('reader-overlay').style.display = 'block';
+            document.getElementById('pdfViewer').src = "https://docs.google.com/viewer?url=" + encodeURIComponent(pdfUrl) + "&embedded=true";
+            document.getElementById('down-btn').onclick = () => { window.open(pdfUrl, '_blank'); };
+        }
+        function closeReader() { document.getElementById('reader-overlay').style.display = 'none'; }
     </script>
 </body>
 </html>
